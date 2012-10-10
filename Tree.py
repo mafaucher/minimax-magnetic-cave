@@ -21,7 +21,7 @@ class Tree:
 		else:
 			return None
 
-	def Add(self, node):
+	def AddNode(self, node):
 		if self.root is None:
 			if node.parentId is None:
 				self.root = node
@@ -42,18 +42,27 @@ class Tree:
 			self.list[node.id].id = node.id
 			self.list[node.id].children = node.children
 
-	def Remove(self, nodeId):
+	def RemoveNode(self, nodeId):
 		tempNode = GetNode(nodeId)
 		if not tempNode is None:
 			self.list[tempNode.parentId].children.remove(tempNode.id)
 			self.list.remove(tempNode)
-
-
+		
+	def HasLeftSibling(self, node):
+		if self.list[node.parentId] is None:
+			return false
+		#use the index 
+		
+	def PreorderTraversal(self, node):
+		if node is None:
+			return
+		
+		print(node)
+		#if len(node.children) > 0:
+			
 
 ##### TEST #####
-#test list based on the one from assignment 2
-
-
+#test list based on the tree from assignment 2
 node0 = Node('A', None)
 node1 = Node('B', 'A')
 node2 = Node('C', 'A')
@@ -67,17 +76,17 @@ node9 = Node('J', 'D')
 node10 = Node('K', 'D')
 
 tree = Tree()
-tree.Add(node0)
-tree.Add(node1)
-tree.Add(node2)
-tree.Add(node3)
-tree.Add(node4)
-tree.Add(node5)
-tree.Add(node6)
-tree.Add(node7)
-tree.Add(node8)
-tree.Add(node9)
-tree.Add(node10)
+tree.AddNode(node0)
+tree.AddNode(node1)
+tree.AddNode(node2)
+tree.AddNode(node3)
+tree.AddNode(node4)
+tree.AddNode(node5)
+tree.AddNode(node6)
+tree.AddNode(node7)
+tree.AddNode(node8)
+tree.AddNode(node9)
+tree.AddNode(node10)
 
 for node in tree.list:
 	print(node)
