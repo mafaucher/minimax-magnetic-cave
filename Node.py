@@ -25,7 +25,6 @@ class Node:
 	def IsLeaf(self):
 		if len(self.children) > 0:
 			return False
-
 		return True
 
 	#returns if the node is the root node

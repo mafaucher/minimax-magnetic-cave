@@ -7,6 +7,7 @@ class Tree:
 	def __init__(self):
 		self.root = None
 		self.nodeDictionary = {} #dictionary used for quick searches
+		self.wasModified = True
 
 	#adds a node to the tree and dictionary, if a node with the same id already exists, it will return
 	def AddNode(self, node, parentId):
@@ -15,18 +16,21 @@ class Tree:
 		if self.root is None:	
 			if parentId is None:
 				self.root = node
-				self.nodeDictionary[node.id] = node
+				self.nodeDictionary.update({node.id : node})
+				self.wasModified = True
 			return
 		
 		#if the node id is not taken, add the node
 		if not node in self.nodeDictionary:
-			self.nodeDictionary[node.id] = node
+			self.nodeDictionary.update({node.id : node})
+			self.wasModified = True
 			
 			parentNode = self.GetNode(parentId)
 			if not parentNode is None:
 				parentNode.children.append(node)
 		else:
 			return
+		
 
 	#returns the node if it found it, else it returns None
 	def GetNode(self, nodeId):
@@ -46,4 +50,11 @@ class Tree:
 		#remove reference from parent
 		tempNode.parentNode.children.remove(tempNode.id)
 		self.nodeDictionary.remove(tempNode)
+		self.wasModified = True
 
+	#prints the tree
+	def Print(self):
+		for node in self.nodeDictionary:
+			print(node)
+		
+			
