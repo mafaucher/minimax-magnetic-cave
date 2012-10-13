@@ -3,6 +3,10 @@
 from Node import Node
 from NodeIterator import NodeIterator
 
+MAX_DEPTH = 3 # Maximum depth of minimax search
+MIN_H = -40 # Minimum heuristic score
+MAX_H =  40 # Maximum heuristic score
+
 class Tree:
 	#initializer
 	def __init__(self):
@@ -40,3 +44,20 @@ class Tree:
 			return
 		#remove reference from parent
 		tempNode.parentNode.children.remove(tempNode.id)
+
+	def Minimax(self, depth=MAX_DEPTH, node=None, alpha=MIN_H, beta=MAX_H, isMax=True):
+		if node is None:
+			node = self.root
+		if node.IsLeaf() or not depth:
+			if isMax:
+				return node.hScore
+			else:
+				return -node.hScore
+		else:
+			for child in node.children:
+				val = -self.Minimax(depth-1, child, -beta, -alpha, not isMax)
+				if val >= beta:
+					return val
+				if val >= alpha:
+					alpha = val
+			return alpha
