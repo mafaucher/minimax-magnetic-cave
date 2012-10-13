@@ -18,11 +18,14 @@ class Tree:
 		if self.root is None:
 			if parentId is None:
 				self.root = node
+				print(str(node.id) + " has parent: none and has height: " + str(node.GetHeight()))
 			return
 			
 		parentNode = self.GetNode(parentId)
 		if not parentNode is None:
 			parentNode.children.append(node)
+			node.parentNode = parentNode
+			print(str(node.id) + " has parent: " + parentNode.id + " and has height: " + str(node.GetHeight()))
 
 	#returns the node if it found it
 	def GetNode(self, nodeId):		

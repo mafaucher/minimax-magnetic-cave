@@ -9,14 +9,13 @@ class Node:
 		self.children = [] #for storing child nodes
 	
 	#returns the height of the node.
-	def GetNodeHeight(self):
+	def GetHeight(self):
 		height = 0
-		while true:
-			if not tempNode.parentNode is None:	
-				height += 1
-				tempNode = parentNode
-			else:
-				break
+		tempNode = self
+		
+		while not tempNode.parentNode is None:
+			height += 1
+			tempNode = tempNode.parentNode
 		return height
 	
 	#return is the node is a leaf node. If false, then the node is an internal node
