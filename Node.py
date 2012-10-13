@@ -1,8 +1,11 @@
+# Jonathan Bergeron, id : 9764453
+
 class Node:
 	#initializer
 	def __init__(self, nodeId):
 		self.id = nodeId
 		self.parentNode = None
+		self.hScore = -1 #will be used to store the heuristic score
 		self.children = [] #for storing child nodes
 	
 	#returns the height of the node.

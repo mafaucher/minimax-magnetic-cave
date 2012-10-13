@@ -10,7 +10,7 @@ class Tree:
 	
 	#creates a nodeIterator and traverses the tree
 	def __iter__(self):
-		nodeIterator = NodeIterator(self)
+		nodeIterator = NodeIterator(self.root)
 		return iter(nodeIterator)
 
 	#adds a node to the tree
@@ -18,7 +18,6 @@ class Tree:
 		if self.root is None:
 			if parentId is None:
 				self.root = node
-				#self.nodeDictionary.update({node.id : node})
 			return
 			
 		parentNode = self.GetNode(parentId)

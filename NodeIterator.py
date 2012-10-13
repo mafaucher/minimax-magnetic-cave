@@ -5,11 +5,10 @@ from Node import Node
 class NodeIterator:
 	
 	#initializer
-	def __init__(self, tree):
-		self.tree = tree
+	def __init__(self, rootNode):
 		self.nodeList = []
 		self.pos = 0
-		self.AddChildrenNodes(self.tree.root)
+		self.AddChildrenNodes(rootNode)
 	
 	#iterative reference
 	def __iter__(self):
