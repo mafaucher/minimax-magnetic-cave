@@ -1,42 +1,27 @@
 # Jonathan Bergeron, id : 9764453
 
-import copy
 from Node import Node
-
 
 class NodeIterator:
 
 	def __init__(self, tree):
 		self.tree = tree
-		self.stack = []
+		self.nodeList = []
 		self.pos = 0
+		self.AddChildrenNodes(self.tree.root)
 	
 	def __iter__(self):
-		return self
+		return iter(self.nodeList)
 
 	def next(self):
-		if self.tree is None or self.tree.root is None:			
-			return
-
-		self.pos += 1
-
-		if self.tree.wasModified is True:
-
-			self.tree.wasModified = False
-			self.pos = 0
-			self.stack = []
-			self.stack.append(self.tree.root)
-			
-			for node in self.stack:
-				#tempList = copy.deepcopy(node.children)
-				#tempList.reverse()
-				#self.stack += tempList
-				self.stack += node.children
-
-			#self.stack.reverse()
-
-		if self.pos > len(self.stack) - 1:
+		if self.pos > len(self.nodeList) - 1:
 			raise StopIteration
 		
-		#print(self.stack[self.pos])
-		return self.stack[self.pos]
+		tempNode = self.nodeList[self.pos]
+		self.pos += 1
+		return tempNode
+
+	def AddChildrenNodes(self, node):
+		for tempNode in node.children:
+			self.AddChildrenNodes(tempNode)
+		self.nodeList.append(node)

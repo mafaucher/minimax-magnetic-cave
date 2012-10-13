@@ -1,6 +1,5 @@
 from Node import Node
 from Tree import Tree
-from NodeIterator import NodeIterator
 
 ##### TEST #####
 #test list based on the tree from assignment 2
@@ -30,13 +29,5 @@ tree.AddNode(node8, 'C')
 tree.AddNode(node9, 'D')
 tree.AddNode(node10, 'D')
 
-nodeIterator = NodeIterator(tree)
-
-for node in nodeIterator:
+for node in tree:
 	print(node.id)
-	#pass
-	
-
-#tree.Print()
-#for node in tree.nodeDictionary:
-#	print(node)
