@@ -7,12 +7,7 @@ class Node:
 	
 	#returns the height of the node.
 	def GetNodeHeight(self):
-		if IsRoot():
-			return 0
-
-		height = 1
-		tempNode = parentNode
-
+		height = 0
 		while true:
 			if not tempNode.parentNode is None:	
 				height += 1
@@ -26,11 +21,3 @@ class Node:
 		if len(self.children) > 0:
 			return False
 		return True
-
-	#returns if the node is the root node
-	def IsRoot(self):
-		if parentNode is None:
-			return True
-		
-		return False
-

@@ -3,16 +3,19 @@
 from Node import Node
 
 class NodeIterator:
-
+	
+	#initializer
 	def __init__(self, tree):
 		self.tree = tree
 		self.nodeList = []
 		self.pos = 0
 		self.AddChildrenNodes(self.tree.root)
 	
+	#iterative reference
 	def __iter__(self):
 		return iter(self.nodeList)
 
+	#gets the next node
 	def next(self):
 		if self.pos > len(self.nodeList) - 1:
 			raise StopIteration
@@ -21,6 +24,7 @@ class NodeIterator:
 		self.pos += 1
 		return tempNode
 
+	#recurse method used to build the list for the iteration.
 	def AddChildrenNodes(self, node):
 		for tempNode in node.children:
 			self.AddChildrenNodes(tempNode)

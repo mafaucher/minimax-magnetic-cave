@@ -1,7 +1,6 @@
 from Node import Node
 from Tree import Tree
 
-##### TEST #####
 #test list based on the tree from assignment 2
 node0 = Node('A')
 node1 = Node('B')
