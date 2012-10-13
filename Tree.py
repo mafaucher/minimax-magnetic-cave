@@ -37,7 +37,3 @@ class Tree:
 			return
 		#remove reference from parent
 		tempNode.parentNode.children.remove(tempNode.id)
-
-	#used to draw the graph
-	def Print(self):
-		
