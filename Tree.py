@@ -23,9 +23,8 @@ class Tree:
 		parentNode = self.GetNode(parentId)
 		if not parentNode is None:
 			parentNode.children.append(node)
-		
 
-	#returns the node if it found it, else it returns None
+	#returns the node if it found it
 	def GetNode(self, nodeId):		
 		for node in self:
 			if node.id == nodeId:
@@ -39,4 +38,6 @@ class Tree:
 		#remove reference from parent
 		tempNode.parentNode.children.remove(tempNode.id)
 
-
+	#used to draw the graph
+	def Print(self):
+		

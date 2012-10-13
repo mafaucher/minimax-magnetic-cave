@@ -1,2 +1,5 @@
 *.pyc
 *.sw*
+
+#pyc folder used for python3
+__pycache__/*
