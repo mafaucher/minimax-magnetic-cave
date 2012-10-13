@@ -15,14 +15,14 @@ class Tree:
 
 	#adds a node to the tree
 	def AddNode(self, node, parentId):
-		if self.root is None:
-			if parentId is None:
+		if not self.root:
+			if not parentId:
 				self.root = node
 				print(str(node.id) + " has parent: none and has height: " + str(node.GetHeight()))
 			return
 			
 		parentNode = self.GetNode(parentId)
-		if not parentNode is None:
+		if parentNode:
 			parentNode.children.append(node)
 			node.parentNode = parentNode
 			print(str(node.id) + " has parent: " + parentNode.id + " and has height: " + str(node.GetHeight()))
@@ -36,7 +36,7 @@ class Tree:
 	#removes a node from the tree
 	def RemoveNode(self, nodeId):
 		tempNode = self.GetNode(nodeId)
-		if tempNode is None:
+		if not tempNode:
 			return
 		#remove reference from parent
 		tempNode.parentNode.children.remove(tempNode.id)

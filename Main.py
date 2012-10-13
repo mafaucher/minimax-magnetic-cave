@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from Node import Node
 from Tree import Tree
 

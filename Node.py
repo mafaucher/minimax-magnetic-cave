@@ -1,24 +1,29 @@
 # Jonathan Bergeron, id : 9764453
 
+import random # temporary for "heuristic score"
+
 class Node:
 	#initializer
-	def __init__(self, nodeId):
+	def __init__(self, nodeId, nodeHeight=None):
 		self.id = nodeId
 		self.parentNode = None
-		self.hScore = -1 #will be used to store the heuristic score
+		self.hScore = random.randrange(0,20) #TODO: heuristic score
 		self.children = [] #for storing child nodes
+		self.height = nodeHeight
 	
 	#returns the height of the node.
 	def GetHeight(self):
-		height = 0
-		tempNode = self
+		if not self.height:
+			self.height = 0
+			tempNode = self
 		
-		while not tempNode.parentNode is None:
-			height += 1
-			tempNode = tempNode.parentNode
-		return height
+			while tempNode.parentNode:
+				self.height += 1
+				tempNode = tempNode.parentNode
+
+		return self.height
 	
-	#return is the node is a leaf node. If false, then the node is an internal node
+	#return if the node is a leaf node. If false, then the node is an internal node
 	def IsLeaf(self):
 		if len(self.children) > 0:
 			return False
