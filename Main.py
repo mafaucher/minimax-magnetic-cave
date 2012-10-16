@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import sys
 from Node import Node
 from Tree import Tree
 
@@ -48,7 +49,8 @@ print("  TEST 2")
 print("==================")
 print("Iteration:")
 for node in tree:
-	print(node.id)
+	sys.stdout.write(node.id + " ")
+print()
 print("==================")
 print()
 print("  TEST 3")
@@ -75,4 +77,5 @@ tree.AddNode(node11, 'E')
 print("==================")
 print("reiteration after adding a node to E:")
 for node in tree:
-	print(node.id)
+	sys.stdout.write(node.id + " ")
+print()
