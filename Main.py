@@ -66,3 +66,13 @@ for node in [n for n in tree if n.GetHeight() == 1]:
 	print(node.id, '=', node.hScore)
 print("Minimax result =", tree.Minimax(depth=1))
 print("==================")
+
+print("TEST 5")
+print("==================")
+print()
+node11 = Node('L')
+tree.AddNode(node11, 'E')
+print("==================")
+print("reiteration after adding a node to E:")
+for node in tree:
+	print(node.id)

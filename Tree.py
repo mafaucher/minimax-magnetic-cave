@@ -11,17 +11,24 @@ class Tree:
 	#initializer
 	def __init__(self):
 		self.root = None
+		self.isDirty = False
+		self.nodeIterator = None
 	
 	#creates a nodeIterator and traverses the tree
 	def __iter__(self):
-		nodeIterator = NodeIterator(self.root)
-		return iter(nodeIterator)
+		if self.isDirty:
+			self.nodeIterator = NodeIterator(self.root)
+			self.isDirty = False
+		else:
+			self.nodeIterator.pos = 0
+		return iter(self.nodeIterator)
 
 	#adds a node to the tree
 	def AddNode(self, node, parentId):
 		if not self.root:
 			if not parentId:
 				self.root = node
+				self.isDirty = True
 				print(str(node.id) + " has parent: none and has height: " + str(node.GetHeight()))
 			return
 			
@@ -29,6 +36,7 @@ class Tree:
 		if parentNode:
 			parentNode.children.append(node)
 			node.parentNode = parentNode
+			self.isDirty = True
 			print(str(node.id) + " has parent: " + parentNode.id + " and has height: " + str(node.GetHeight()))
 
 	#returns the node if it found it
@@ -44,6 +52,7 @@ class Tree:
 			return
 		#remove reference from parent
 		tempNode.parentNode.children.remove(tempNode.id)
+		self.isDirty = True
 
 	def Minimax(self, depth=MAX_DEPTH, node=None, alpha=MIN_H, beta=MAX_H, isMax=True):
 		if node is None:
