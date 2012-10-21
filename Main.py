@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import sys
 from Node import Node
 from Tree import Tree
 from Minimax import *
@@ -49,7 +50,8 @@ print("  TEST 2")
 print("==================")
 print("Iteration:")
 for node in tree:
-	print(node.id)
+	sys.stdout.write(node.id + " ")
+print()
 print("==================")
 print()
 print("  TEST 3")
@@ -67,3 +69,14 @@ print("H(Height==1):")
 #	print(node.id, '=', node.hScore)
 print("Minimax result =", Minimax(tree.root,depth=1))
 print("==================")
+
+print("TEST 5")
+print("==================")
+print()
+node11 = Node('L')
+tree.AddNode(node11, 'E')
+print("==================")
+print("reiteration after adding a node to E:")
+for node in tree:
+	sys.stdout.write(node.id + " ")
+print()
