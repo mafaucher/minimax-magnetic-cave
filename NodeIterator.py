@@ -1,4 +1,5 @@
 # Jonathan Bergeron, id : 9764453
+# Marc-Andre Faucher,id : 9614729
 
 from Node import Node
 

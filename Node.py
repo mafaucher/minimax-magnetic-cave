@@ -1,13 +1,11 @@
 # Jonathan Bergeron, id : 9764453
-
-import random # temporary for "heuristic score"
+# Marc-Andre Faucher,id : 9614729
 
 class Node:
 	#initializer
 	def __init__(self, nodeId, nodeHeight=None):
 		self.id = nodeId
 		self.parentNode = None
-		self.hScore = random.randrange(0,20) #TODO: heuristic score
 		self.children = [] #for storing child nodes
 		self.height = nodeHeight
 	

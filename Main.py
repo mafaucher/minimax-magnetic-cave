@@ -2,6 +2,7 @@
 
 from Node import Node
 from Tree import Tree
+from Minimax import *
 
 ##Test list based on the tree from assignment 2:
 #                  A
@@ -54,15 +55,15 @@ print()
 print("  TEST 3")
 print("==================")
 print("H(Leaves):")
-for node in [n for n in tree if n.IsLeaf()]:
-	print(node.id, '=', node.hScore)
-print("Minimax result =", tree.Minimax())
+#for node in [n for n in tree if n.IsLeaf()]:
+#	print(node.id, '=', node.hScore)
+print("Minimax result =", Minimax(tree.root))
 print("==================")
 print()
 print("  TEST 4")
 print("==================")
 print("H(Height==1):")
-for node in [n for n in tree if n.GetHeight() == 1]:
-	print(node.id, '=', node.hScore)
-print("Minimax result =", tree.Minimax(depth=1))
+#for node in [n for n in tree if n.GetHeight() == 1]:
+#	print(node.id, '=', node.hScore)
+print("Minimax result =", Minimax(tree.root,depth=1))
 print("==================")
