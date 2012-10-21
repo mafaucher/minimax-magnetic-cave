@@ -2,7 +2,7 @@
 # Marc-Andre Faucher,id : 9614729
 
 from Node import Node
-
+MAX_DEPTH = 3
 class NodeIterator:
 	
 	#initializer

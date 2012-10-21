@@ -33,6 +33,7 @@ class Tree:
 		if parentNode:
 			parentNode.children.append(node)
 			node.parentNode = parentNode
+			print(node.id, "is child of", parentNode.id)
 			self.isDirty = True
 			print(str(node.id) + " has parent: " + parentNode.id + " and has height: " + str(node.GetHeight()))
 

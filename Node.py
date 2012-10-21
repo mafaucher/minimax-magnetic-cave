@@ -3,22 +3,18 @@
 
 class Node:
 	#initializer
-	def __init__(self, nodeId, nodeHeight=None):
+	def __init__(self, nodeId, nodeHeight=-1):
 		self.id = nodeId
 		self.parentNode = None
 		self.children = [] #for storing child nodes
 		self.height = nodeHeight
 	
-	#returns the height of the node.
 	def GetHeight(self):
-		if not self.height:
-			self.height = 0
-			tempNode = self
-		
-			while tempNode.parentNode:
-				self.height += 1
-				tempNode = tempNode.parentNode
-
+		if self.height is -1:
+			if self.parentNode:
+				self.height = self.parentNode.GetHeight()+1
+			else:
+				self.height = 0
 		return self.height
 	
 	#return if the node is a leaf node. If false, then the node is an internal node

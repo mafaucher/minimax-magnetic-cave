@@ -59,7 +59,7 @@ print("==================")
 print("H(Leaves):")
 #for node in [n for n in tree if n.IsLeaf()]:
 #	print(node.id, '=', node.hScore)
-print("Minimax result =", Minimax(tree.root))
+print("Minimax result =", MinimaxR(tree.root))
 print("==================")
 print()
 print("  TEST 4")
@@ -67,16 +67,21 @@ print("==================")
 print("H(Height==1):")
 #for node in [n for n in tree if n.GetHeight() == 1]:
 #	print(node.id, '=', node.hScore)
-print("Minimax result =", Minimax(tree.root,depth=1))
+print("Minimax result =", MinimaxR(tree.root,depth=1))
 print("==================")
-
-print("TEST 5")
+print()
+print("  TEST 5")
 print("==================")
 print()
 node11 = Node('L')
 tree.AddNode(node11, 'E')
-print("==================")
 print("reiteration after adding a node to E:")
 for node in tree:
-	sys.stdout.write(node.id + " ")
+	print(node.id, end=" ")
 print()
+print("==================")
+print()
+
+#for node in [n for n in tree]
+	
+print(node10.GetHeight())

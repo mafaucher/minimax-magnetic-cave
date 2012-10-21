@@ -12,7 +12,7 @@ MAX_H =  40 # Maximum heuristic score
 def Heuristic(node):
 	return randrange(0,20) # TODO: heuristic score
 
-def Minimax(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMax=True):
+def MinimaxR(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMax=True):
 	if node.IsLeaf() or not depth:
 		h = Heuristic(node)
 		print(node.id, "=", h)
@@ -22,9 +22,12 @@ def Minimax(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMax=True):
 			return -h
 	else:
 		for child in node.children:
-			val = -Minimax(child, depth-1, -beta, -alpha, not isMax)
+			val = -MinimaxR(child, depth-1, -beta, -alpha, not isMax)
 			if val >= beta:
 				return val
 			if val >= alpha:
 				alpha = val
 		return alpha
+
+#def MinimaxI(tree, node=tree.root, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMas=True):
+#	for node in tree
