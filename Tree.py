@@ -13,32 +13,35 @@ class Tree:
 	
 	#creates a nodeIterator and traverses the tree
 	def __iter__(self):
-		if self.isDirty:
+		if not self.nodeIterator or self.isDirty:
 			self.nodeIterator = NodeIterator(self.root)
 			self.isDirty = False
 		else:
 			self.nodeIterator.pos = 0
 		return iter(self.nodeIterator)
 
-	#adds a node to the tree
-	def AddNode(self, node, parentId):
+	#adds a node without searching the tree
+	def AddNode(self, node, parentNode=None, h=None):
 		if not self.root:
-			if not parentId:
+			if not parentNode:
 				self.root = node
 				self.isDirty = True
-				print(str(node.id) + " has parent: none and has height: " + str(node.GetHeight()))
-			return
-			
-		parentNode = self.GetNode(parentId)
-		if parentNode:
+				print(node.id, "has parent: none and has height:", node.GetHeight())
+		elif parentNode:
 			parentNode.children.append(node)
 			node.parentNode = parentNode
-			print(node.id, "is child of", parentNode.id)
+			node.hScore = h
 			self.isDirty = True
-			print(str(node.id) + " has parent: " + parentNode.id + " and has height: " + str(node.GetHeight()))
+			print(node.id, "has parent:", parentNode.id, "and has height:", node.GetHeight())
+
+	#adds a node to the tree by searching for parent ID
+	def AddNodeById(self, node, parentId=None, h=None):
+		if parentId:
+			parentNode = self.GetNode(parentId)
+		AddNode(self, node, parentNode, h)
 
 	#returns the node if it found it
-	def GetNode(self, nodeId):		
+	def GetNode(self, nodeId):
 		for node in self:
 			if node.id == nodeId:
 				return node

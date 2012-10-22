@@ -6,28 +6,57 @@ from Tree import Tree
 from random import randrange
 
 MAX_DEPTH = 3 # Maximum depth of minimax search
-MIN_H = -40 # Minimum heuristic score
-MAX_H =  40 # Maximum heuristic score
+MIN_H = -400 # Minimum heuristic score
+MAX_H =  400 # Maximum heuristic score
 
 def Heuristic(node):
-	return randrange(0,20) # TODO: heuristic score
+	val = randrange(0,MAX_H) # TODO: real heuristic score
+	print("Explored Leaf", node.id, "with score", val)
+	return val
 
-def MinimaxR(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMax=True):
-	if node.IsLeaf() or not depth:
-		h = Heuristic(node)
-		print(node.id, "=", h)
-		if isMax:
-			return h
-		else:
-			return -h
-	else:
-		for child in node.children:
-			val = -MinimaxR(child, depth-1, -beta, -alpha, not isMax)
-			if val >= beta:
-				return val
-			if val >= alpha:
-				alpha = val
-		return alpha
+def Maxi(node, depth=MAX_DEPTH):
+	if node.IsLeaf() or depth <= 0:
+		return (Heuristic(node), None)
+	max = MIN_H
+	path = None
+	for child in node.children:
+		score = Mini(child, depth-1)[0]
+		if score > max:
+			path = child
+			max = score
+	return (max, path)
 
-#def MinimaxI(tree, node=tree.root, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMas=True):
-#	for node in tree
+def Mini(node, depth=MAX_DEPTH):
+	if node.IsLeaf() or depth <= 0:
+		return (Heuristic(node), None)
+	min = MAX_H
+	path = None
+	for child in node.children:
+		score = Maxi(child, depth-1)[0]
+		if score < min:
+			min = score
+	return (min, path)
+
+#def Minimax(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMax=True):
+#	path = None
+#	if node.IsLeaf() or depth <= 0:
+#		val = Heuristic(node)
+#		print("Explored Leaf", node.id, "with score", val)
+#		if isMax:
+#			return (val, None)
+#		else:
+#			return (-val, None)
+#	else:
+#		for child in node.children:
+#			val = Minimax(child, depth-1, -beta, -alpha, not isMax)[0]
+#			val = -val
+#			if val >= beta:
+#				print("Set", node.id, "to", abs(val))
+#				#path = child
+#				return (val, child)
+#			if val >= alpha:
+#				path = child
+#				alpha = val
+#		print("Set Node", node.id, "to", abs(alpha))
+#		return (alpha, path)
+

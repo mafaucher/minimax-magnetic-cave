@@ -3,11 +3,12 @@
 
 class Node:
 	#initializer
-	def __init__(self, nodeId, nodeHeight=-1):
+	def __init__(self, nodeId=0, nodeHeight=-1):
 		self.id = nodeId
 		self.parentNode = None
 		self.children = [] #for storing child nodes
 		self.height = nodeHeight
+		self.hScore = None
 	
 	def GetHeight(self):
 		if self.height is -1:
