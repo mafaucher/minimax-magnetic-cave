@@ -5,37 +5,50 @@ from Node import Node
 from Tree import Tree
 from random import randrange
 
-MAX_DEPTH = 3 # Maximum depth of minimax search
-MIN_H = -400 # Minimum heuristic score
-MAX_H =  400 # Maximum heuristic score
+MAX_DEPTH = 3 # Maximum depth of minimumimax search
+MIN_H = 0 # Minimum heuristic score
+MAX_H = 40 # Maximum heuristic score
+VERBOSE = True
 
 def Heuristic(node):
 	val = randrange(0,MAX_H) # TODO: real heuristic score
-	print("Explored Leaf", node.id, "with score", val)
+	if VERBOSE:
+		print("Explored Leaf", node.id, "with score", val)
 	return val
 
-def Maxi(node, depth=MAX_DEPTH):
+def Maxi(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H):
 	if node.IsLeaf() or depth <= 0:
 		return (Heuristic(node), None)
-	max = MIN_H
 	path = None
 	for child in node.children:
 		score = Mini(child, depth-1)[0]
-		if score > max:
+		if score >= beta:
+			if VERBOSE:
+				print("Beta pruning for", child.id, ":", score, ">=", beta)
+			return (beta, path)
+		if score > alpha:
+			if VERBOSE:
+				print("Updated Node (MAX)", node.id, "path to", child.id, ":", alpha, "->", score)
 			path = child
-			max = score
-	return (max, path)
+			alpha = score
+	return (alpha, path)
 
-def Mini(node, depth=MAX_DEPTH):
+def Mini(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H):
 	if node.IsLeaf() or depth <= 0:
 		return (Heuristic(node), None)
-	min = MAX_H
 	path = None
 	for child in node.children:
 		score = Maxi(child, depth-1)[0]
-		if score < min:
-			min = score
-	return (min, path)
+		if score <= alpha:
+			if VERBOSE:
+				print("Alpha pruning for", child.id, ":", score, "<=", alpha)
+			return (alpha, path)
+		if score < beta:
+			if VERBOSE:
+				print("Updated Node (MIN)", node.id, "path to", child.id, ":", beta, "->", score)
+			path = child
+			beta = score
+	return (beta, path)
 
 #def Minimax(node, depth=MAX_DEPTH, alpha=MIN_H, beta=MAX_H, isMax=True):
 #	path = None
