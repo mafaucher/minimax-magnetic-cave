@@ -4,6 +4,7 @@ import sys
 from Node import Node
 from Tree import Tree
 from Minimax import *
+from GameBoard import GameBoard
 
 TOTAL_DEPTH = 4
 NUM_CHILDREN = 2
@@ -13,6 +14,8 @@ count = 0
 tree = Tree()
 tree.AddNode(Node(count))
 nodeList = [tree.root]
+gameBoard = GameBoard()
+
 
 ## GENERATE TREE ##
 
@@ -34,4 +37,7 @@ while( userInput != "q" and not tree.root.IsLeaf() ):
 	(val, path) = Maxi(tree.root)
 	tree.root = path
 	print("Winning path is to Node", tree.root.id, "with", val)
-	userInput = input("Press ENTER to exit, or 'q' to quit > ")
+	#userInput = input("Press ENTER to exit, or 'q' to quit > ")
+	
+gameBoard.Print()
+
