@@ -54,7 +54,6 @@ while userInput.lower() != "n":
 
 	# Check winner and display score
 	winner = gameBoard.CheckWinner()
-	winner = 2
 	if winner is 0:
 		"It's a draw!"
 	else:
