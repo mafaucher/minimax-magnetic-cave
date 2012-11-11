@@ -34,30 +34,68 @@ class GameBoard:
 	
 	#Place a character in a specific square
 	def PlaceSymbol(self, player, column, row):
-		row = row - 1
-		column = self.LetterToInt(column) - 1
+		(column, row) = self.GetIndex(column, row)
 		self.gameSpace[row][column] = PLAYER_SYMBOLS[player]
+
+	#Checks if the space is a legal move, testing all conditions
+	def IsLegal(self, column, row):
+		if self.IsOutOfBounds(column, row):
+			if VERBOSE:
+				print("ILLEGAL MOVE:", str(column), str(row), "out of bounds.")
+			return False
+		if self.IsOccupied(column, row):
+			if VERBOSE:
+				print("ILLEGAL MOVE:", str(column), str(row), "occupied.")
+			return False
+		if not self.IsStacked(column, row):
+			if VERBOSE:
+				print("ILLEGAL MOVE:", str(column), str(row), "not stacked")
+			return False
+		return True
 
 	#Checks if space is already occupied, returns true if occupied else, returns false
 	def IsOccupied(self, column, row):
-		row = row - 1
-		column = self.LetterToInt(column) - 1
+		(column, row) = self.GetIndex(column, row)
 		selectedSymbol = self.gameSpace[row][column]
 		if selectedSymbol == EMPTY_CELL_VALUE:
 			return False
-		else:
+		return True
+
+	#Checks that input corresponds to a cell inside the Game Board
+	def IsOutOfBounds(self, column, row):
+		if int(row) not in range(1, BOARD_WIDTH):
 			return True
+		if column.upper() not in map(chr, range(65, 65 + BOARD_HEIGHT)):
+			return True
+		return False
+
+	#Verifies if the space is stacked on a wall or another brick
+	def IsStacked(self, column, row):
+		(tempColumn, tempRow) = self.GetIndex(column, row)
+		leftColumn = self.IntToLetter(tempColumn - 1)
+		rightColumn = self.IntToLetter(tempColumn + 1)
+		if self.IsOutOfBounds(rightColumn, row) or self.IsOutOfBounds(leftColumn, row):
+			return True
+		if self.IsOccupied(rightColumn, row) or self.IsOccupied(leftColumn, row):
+			return True
+		return False
+
+	#Converts the column and row into array indexes
+	def GetIndex(self, column, row):
+		row = int(row) - 1
+		column = self.LetterToInt(column) - 1
+		return (column, row)
 
 	#used to convert a character to an integer value that can be used in the 2D array
-	#doesn't check bounds for now ...
 	def LetterToInt(self, letter):
 		letter = letter.upper()
 		intchar = ord(letter) - 64
 		return intchar
-		
+
+	#used to convert an integer value to a character used by the Game Board
 	def IntToLetter(self, intchar):
 		intchar = int(intchar)
-		letter = chr(intchar + 64)
+		letter = chr(intchar + 65)
 		return letter
 
 	#zeros out the board

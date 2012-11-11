@@ -125,15 +125,20 @@ gameBoard.PlaceSymbol(2, 'h', 2)
 gameBoard.Print()
 
 print()
-print("  TEST 2 - GameBoard methods")
+print("  TEST 2 - Legal Moves")
 print("============================")
-print("checking if a1 is occupied")
-print(gameBoard.IsOccupied('a', 1))
+print("checking for a1:")
+if gameBoard.IsLegal('a', 1):
+	print("Legal move")
 
-print("checking if h2 is occupied")
-print(gameBoard.IsOccupied('h', 2))
+print("checking for h9:")
+if gameBoard.IsLegal('h', 9):
+	print("Legal move")
 
-print("checking if b6 is occupied")
-print(gameBoard.IsOccupied('b', 6))
+print("checking for b6:")
+if gameBoard.IsLegal('b', 6):
+	print("Legal move")
 
-
+print("checking for a2:")
+if gameBoard.IsLegal('a', 2):
+	print("Legal move")
