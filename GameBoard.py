@@ -2,16 +2,10 @@
 # Marc-Andre Faucher,id : 9614729
 
 import os
+from Constants import *
 
 def cls():
     os.system(['clear', 'cls'][os.name == 'nt'])
-
-#Game constants
-BOARD_WIDTH = 8
-BOARD_HEIGHT = 8
-
-EMPTY_CELL_VALUE = '_'
-PLAYER_SYMBOLS = { 1:'O', 2:'X' }
 
 class GameBoard:
 	#initializer
@@ -26,9 +20,14 @@ class GameBoard:
 	#output the board to console	
 	def Print(self):
 		cls()
-		print("Printing board")
+		if VERBOSE:
+			print("Printing board")
+		row = ""
+		for j in range(BOARD_WIDTH):
+			row = row + '\t' + self.IntToLetter(j + 1)
+		print(row)
 		for i in range(BOARD_HEIGHT):
-			row = ""
+			row = str(i + 1)
 			for j in range(BOARD_WIDTH):
 				row = row + '\t' + self.gameSpace[i][j]
 			print(row)
@@ -56,6 +55,11 @@ class GameBoard:
 		intchar = ord(letter) - 64
 		return intchar
 		
+	def IntToLetter(self, intchar):
+		intchar = int(intchar)
+		letter = chr(intchar + 64)
+		return letter
+
 	#zeros out the board
 	def ClearOutBoard(self):
 		for i in range(BOARD_HEIGHT):

@@ -1,4 +1,5 @@
 *.pyc
+*~
 *.sw*
 
 #pyc folder used for python3

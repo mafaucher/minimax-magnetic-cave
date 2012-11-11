@@ -1,6 +1,8 @@
 # Jonathan Bergeron, id : 9764453
 # Marc-Andre Faucher,id : 9614729
 
+from Constants import *
+
 class Node:
 	#initializer
 	def __init__(self, nodeId=0, nodeHeight=-1):
@@ -18,7 +20,7 @@ class Node:
 				self.height = 0
 		return self.height
 	
-	#return if the node is a leaf node. If false, then the node is an internal node
+	#return true if the node is a leaf node. If false, then the node is an internal node
 	def IsLeaf(self):
 		if len(self.children) > 0:
 			return False

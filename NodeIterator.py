@@ -1,8 +1,9 @@
 # Jonathan Bergeron, id : 9764453
 # Marc-Andre Faucher,id : 9614729
 
+from Constants import *
 from Node import Node
-MAX_DEPTH = 3
+
 class NodeIterator:
 	
 	#initializer
