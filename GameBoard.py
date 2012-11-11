@@ -157,17 +157,17 @@ class GameBoard:
 
 	#Checks that input corresponds to a cell inside the Game Board
 	def IsOutOfBounds(self, column, row):
-		if column not in range(BOARD_HEIGHT):
+		if int(column) not in range(BOARD_HEIGHT):
 			return True
-		if row not in range(BOARD_WIDTH):
+		if int(row) not in range(BOARD_WIDTH):
 			return True
 		return False
 
 	#Verifies if the space is stacked on a wall or another brick
 	def IsStacked(self, column, row):
-		if self.IsOutOfBounds(column + 1, row) or self.IsOutOfBounds(column + 1, row):
+		if self.IsOutOfBounds(column + 1, row) or self.IsOutOfBounds(column - 1, row):
 			return True
-		if self.IsOccupied(column - 1, row) or self.IsOccupied(column - 1, row):
+		if self.IsOccupied(column + 1, row) or self.IsOccupied(column - 1, row):
 			return True
 		return False
 
