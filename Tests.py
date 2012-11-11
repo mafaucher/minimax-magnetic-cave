@@ -111,21 +111,16 @@ while( userInput == "c" and not tree.root.IsLeaf() ):
 	userInput = input("Press ENTER to exit, or 'c' to continue > ")
 print()
 print("============================")
+
+gameBoard.PlaceSymbol(1, 'a', 1)
+gameBoard.PlaceSymbol(2, 'h', 2)
+gameBoard.Print()
 print()
 print("============================")
 print("  TESTS - PHASE 2  ")
 print("============================")
 print()
-print("  TEST 1 - Printing Board")
-print("============================")
-input()
-#PlaceSymbol(self, player, column, row):
-gameBoard.PlaceSymbol(1, 'a', 1)
-gameBoard.PlaceSymbol(2, 'h', 2)
-gameBoard.Print()
-
-print()
-print("  TEST 2 - Legal Moves")
+print("  TEST 1 - Legal Moves")
 print("============================")
 print("checking for a1:")
 if gameBoard.IsLegal('a', 1):
@@ -142,3 +137,28 @@ if gameBoard.IsLegal('b', 6):
 print("checking for a2:")
 if gameBoard.IsLegal('a', 2):
 	print("Legal move")
+
+if gameBoard.IsDraw():
+	print("Draw")
+
+gameBoard.PlaceSymbol(1, 'e', 1)
+gameBoard.PlaceSymbol(1, 'd', 2)
+gameBoard.PlaceSymbol(1, 'c', 3)
+gameBoard.PlaceSymbol(1, 'b', 4)
+gameBoard.PlaceSymbol(1, 'a', 5)
+
+input()
+
+gameBoard.Print()
+print()
+print("  TEST 2 - Winner")
+print("============================")
+winner = gameBoard.CheckWinner()
+if winner is 1:
+	print("Player 1, a winner is you!")
+elif winner is 2:
+	print("Player 2, a winner is you!")
+elif winner is 0:
+	print("Too bad, it's a draw")
+else:
+	print("No winner")

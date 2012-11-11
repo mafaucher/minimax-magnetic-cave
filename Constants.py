@@ -10,6 +10,7 @@ BOARD_HEIGHT = 8
 
 EMPTY_CELL_VALUE = '_'
 PLAYER_SYMBOLS = { 1:'O', 2:'X' }
+BRIDGE_SIZE = 5
 
 # Minimax
 
