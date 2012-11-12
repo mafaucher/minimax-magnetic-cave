@@ -49,8 +49,6 @@ class GameBoard:
 	# 0 : End of game, no winner
 	#-1 : Game continues
 	def CheckWinner(self):
-		if self.IsDraw():
-			return 0
 		for i in range(BOARD_HEIGHT):
 			for j in range(BOARD_WIDTH):
 				winner = self.CheckWinColumn(i, j)
@@ -65,6 +63,8 @@ class GameBoard:
 				winner = self.CheckWinDiagDown(i, j)
 				if winner > 0:
 					return winner
+		if self.IsDraw():
+			return 0
 		return -1
 	
 	#Check for a vertical win starting at position

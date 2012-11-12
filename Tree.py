@@ -27,13 +27,15 @@ class Tree:
 			if not parentNode:
 				self.root = node
 				self.isDirty = True
-				print(node.id, "has parent: none and has height:", node.GetHeight())
+				if VERBOSE:
+					print(node.id, "has parent: none and has height:", node.GetHeight())
 		elif parentNode:
 			parentNode.children.append(node)
 			node.parentNode = parentNode
 			node.hScore = h
 			self.isDirty = True
-			print(node.id, "has parent:", parentNode.id, "and has height:", node.GetHeight())
+			if VERBOSE:
+				print(node.id, "has parent:", parentNode.id, "and has height:", node.GetHeight())
 
 	#adds a node to the tree by searching for parent ID
 	def AddNodeById(self, node, parentId=None, h=None):

@@ -1,7 +1,7 @@
 # Jonathan Bergeron, id : 9764453
 # Marc-Andre Faucher,id : 9614729
 
-VERBOSE = True
+VERBOSE = False
 
 # Game Board
 
@@ -20,5 +20,5 @@ MAX_H = 40
 
 # Test Tree (To demo Minimax)
 
-TOTAL_DEPTH = 4
-NUM_CHILDREN = 2
+TOTAL_DEPTH = 5
+NUM_CHILDREN = 16

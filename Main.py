@@ -29,13 +29,13 @@ currentPlayer = 1
 score = { 1:0, 2:0 }
 userInput = ""
 
+gameBoard.Print()
 # Multiple game loop
 while userInput.lower() != "n":
 	gameBoard.ClearOutBoard()
 
 	# Main game loop
 	while gameBoard.CheckWinner() < 0:
-		gameBoard.Print()
 		print()
 		print("PLAYER", currentPlayer)
 		print()
@@ -47,11 +47,12 @@ while userInput.lower() != "n":
 			(column, row) = GetCoord()
 
 		gameBoard.PlaceSymbol(currentPlayer, column, row)
-		if currentPlayer is 1:
-			currentPlayer = 2
-		else:
-			currentPlayer = 1
 
+		# Switch current player
+		currentPlayer = currentPlayer % 2 + 1
+		
+		gameBoard.Print()
+	
 	# Check winner and display score
 	winner = gameBoard.CheckWinner()
 	if winner is 0:
