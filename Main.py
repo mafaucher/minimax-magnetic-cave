@@ -29,11 +29,11 @@ currentPlayer = 1
 score = { 1:0, 2:0 }
 userInput = ""
 
-gameBoard.Print()
 # Multiple game loop
 while userInput.lower() != "n":
 	gameBoard.ClearOutBoard()
-
+	#gameBoard.PopulateForTest(4)
+	gameBoard.Print()
 	# Main game loop
 	while gameBoard.CheckWinner() < 0:
 		print()
