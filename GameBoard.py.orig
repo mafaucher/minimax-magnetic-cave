@@ -191,7 +191,11 @@ class GameBoard:
 
 	#zeros out the board
 	def ClearOutBoard(self):
-		self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
+<<<<<<< HEAD
+		for i in range(BOARD_HEIGHT):
+			for j in range(BOARD_WIDTH):
+				self.gameSpace[i][j] = EMPTY_CELL_VALUE
+
 	#used to get a list of possible moves to generate trees
 	def GetNextAvailablePlays(self):
 		moves = set()
@@ -206,6 +210,9 @@ class GameBoard:
 					moves.add(str(i) + self.IntToLetter(BOARD_WIDTH - j - 1))
 					break
 		print(moves)
+=======
+		self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
+>>>>>>> 0253676368c26c6329f830fd5d8d055c772e4297
 				
 	def PopulateForTest(self, setting):
 		if setting == 1: #check column
@@ -239,6 +246,9 @@ class GameBoard:
 			self.gameSpace[3][1] = PLAYER_SYMBOLS[2]
 			self.gameSpace[3][2] = PLAYER_SYMBOLS[2]
 			self.gameSpace[3][3] = PLAYER_SYMBOLS[2]
+<<<<<<< HEAD
 			
 			
 	
+=======
+>>>>>>> 0253676368c26c6329f830fd5d8d055c772e4297
