@@ -8,11 +8,12 @@
 
 
 import os
+import math
 from Constants import *
 
 def cls():
     os.system(['clear', 'cls'][os.name == 'nt'])
-
+	
 class GameBoard:
 	#initializer
 	def __init__(self):
@@ -49,18 +50,19 @@ class GameBoard:
 	# 0 : End of game, no winner
 	#-1 : Game continues
 	def CheckWinner(self):
-		for i in range(BOARD_HEIGHT):
-			for j in range(BOARD_WIDTH):
+		for i in range(BOARD_HEIGHT - BRIDGE_SIZE + 1):
+			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
 				winner = self.CheckWinColumn(i, j)
 				if winner > 0:
 					return winner
 				winner = self.CheckWinRow(i, j)
 				if winner > 0:
 					return winner
-				winner = self.CheckWinDiagUp(i, j)
+				winner = self.CheckWinDiagDown(i, j)
 				if winner > 0:
 					return winner
-				winner = self.CheckWinDiagDown(i, j)
+				#checking 3rd quartile here instead of 1st
+				winner = self.CheckWinDiagUp(i , j + BRIDGE_SIZE - 1)
 				if winner > 0:
 					return winner
 		if self.IsDraw():
@@ -194,3 +196,37 @@ class GameBoard:
 		for i in range(BOARD_HEIGHT):
 			for j in range(BOARD_WIDTH):
 				self.gameSpace[i][j] = EMPTY_CELL_VALUE
+
+				
+	def PopulateForTest(self, setting):
+		if setting == 1: #check column
+			self.gameSpace[0][0] = PLAYER_SYMBOLS[1]
+			self.gameSpace[1][0] = PLAYER_SYMBOLS[1]
+			self.gameSpace[2][0] = PLAYER_SYMBOLS[1]
+			self.gameSpace[3][0] = PLAYER_SYMBOLS[1]
+		if setting == 2: #check row
+			self.gameSpace[0][0] = PLAYER_SYMBOLS[1]
+			self.gameSpace[0][1] = PLAYER_SYMBOLS[1]
+			self.gameSpace[0][2] = PLAYER_SYMBOLS[1]
+			self.gameSpace[0][3] = PLAYER_SYMBOLS[1]
+		if setting == 3: #check diagonal down
+			self.gameSpace[0][0] = PLAYER_SYMBOLS[1]
+			self.gameSpace[1][1] = PLAYER_SYMBOLS[1]
+			self.gameSpace[2][2] = PLAYER_SYMBOLS[1]
+			self.gameSpace[3][3] = PLAYER_SYMBOLS[1]
+			
+			self.gameSpace[4][0] = PLAYER_SYMBOLS[2]
+			self.gameSpace[4][1] = PLAYER_SYMBOLS[2]
+			self.gameSpace[4][2] = PLAYER_SYMBOLS[2]
+			self.gameSpace[4][3] = PLAYER_SYMBOLS[2]
+			
+		if setting == 4: #check diagonal up
+			self.gameSpace[4][3] = PLAYER_SYMBOLS[1]
+			self.gameSpace[5][2] = PLAYER_SYMBOLS[1]
+			self.gameSpace[6][1] = PLAYER_SYMBOLS[1]
+			self.gameSpace[7][0] = PLAYER_SYMBOLS[1]
+			
+			self.gameSpace[3][0] = PLAYER_SYMBOLS[2]
+			self.gameSpace[3][1] = PLAYER_SYMBOLS[2]
+			self.gameSpace[3][2] = PLAYER_SYMBOLS[2]
+			self.gameSpace[3][3] = PLAYER_SYMBOLS[2]
