@@ -54,6 +54,7 @@ while userInput.lower() != "n":
 		currentPlayer = currentPlayer % 2 + 1
 		
 		gameBoard.Print()
+		gameBoard.GetNextAvailablePlays()
 	
 	# Check winner and display score
 	winner = gameBoard.CheckWinner()
