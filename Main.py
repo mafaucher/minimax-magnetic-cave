@@ -36,6 +36,8 @@ while userInput.lower() != "n":
 	gameBoard.Print()
 	# Main game loop
 	while gameBoard.CheckWinner() < 0:
+		val = gameBoard.WeightedH(currentPlayer)
+		print("\nFINAL HEURISTIC:", val, "\n")
 		print()
 		print("PLAYER", currentPlayer)
 		print()

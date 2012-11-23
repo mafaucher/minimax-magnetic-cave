@@ -42,7 +42,7 @@ class GameBoard:
 	def PlaceSymbol(self, player, column, row):
 		(column, row) = self.GetIndex(column, row)
 		self.gameSpace[row][column] = PLAYER_SYMBOLS[player]
-
+	
 	#Checks for a winner:
 	# 1 : Player 1 wins
 	# 2 : Player 2 wins
@@ -50,13 +50,17 @@ class GameBoard:
 	#-1 : Game continues
 	def CheckWinner(self):
 		for i in range(BOARD_HEIGHT - BRIDGE_SIZE + 1):
+			for j in range(BOARD_WIDTH):
+				winner = self.CheckWinRow(i, j)
+				if winner > 0:
+					return winner
+		for i in range(BOARD_HEIGHT):
 			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
 				winner = self.CheckWinColumn(i, j)
 				if winner > 0:
 					return winner
-				winner = self.CheckWinRow(i, j)
-				if winner > 0:
-					return winner
+		for i in range(BOARD_HEIGHT - BRIDGE_SIZE + 1):
+			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
 				winner = self.CheckWinDiagDown(i, j)
 				if winner > 0:
 					return winner
@@ -74,8 +78,8 @@ class GameBoard:
 		if player <= 0:
 			return -1
 		for i in range(1, BRIDGE_SIZE):
-			if self.IsOutOfBounds(column, row + i):
-				return -1
+#			if self.IsOutOfBounds(column, row + i):
+#				return -1
 			if self.gameSpace[row + i][column] is not PLAYER_SYMBOLS[player]:
 				return -1
 		return player
@@ -86,8 +90,8 @@ class GameBoard:
 		if player <= 0:
 			return -1
 		for i in range(1, BRIDGE_SIZE):
-			if self.IsOutOfBounds(column + i, row):
-				return -1
+#			if self.IsOutOfBounds(column + i, row):
+#				return -1
 			if self.gameSpace[row][column + i] is not PLAYER_SYMBOLS[player]:
 				return -1
 		return player
@@ -98,8 +102,8 @@ class GameBoard:
 		if player <= 0:
 			return -1
 		for i in range(1, BRIDGE_SIZE):
-			if self.IsOutOfBounds(column + i, row + i):
-				return -1
+#			if self.IsOutOfBounds(column + i, row + i):
+#				return -1
 			if self.gameSpace[row + i][column + i] is not PLAYER_SYMBOLS[player]:
 				return -1
 		return player
@@ -110,8 +114,8 @@ class GameBoard:
 		if player <= 0:
 			return -1
 		for i in range(1, BRIDGE_SIZE):
-			if self.IsOutOfBounds(column + i, row - i):
-				return -1
+#			if self.IsOutOfBounds(column + i, row - i):
+#				return -1
 			if self.gameSpace[row - i][column + i] is not PLAYER_SYMBOLS[player]:
 				return -1
 		return player
@@ -130,6 +134,118 @@ class GameBoard:
 				if self.gameSpace[i][j] is EMPTY_CELL_VALUE:
 					return False
 		return True
+
+	# Returns the Heuristic value for the Board
+	def WeightedH(self, player):
+		score = 0
+		for i in range(BOARD_HEIGHT - BRIDGE_SIZE + 1):
+			for j in range(BOARD_WIDTH):
+				score += self.CheckHRow(i, j)
+		for i in range(BOARD_HEIGHT):
+			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
+				score += self.CheckHColumn(i, j)
+		for i in range(BOARD_HEIGHT - BRIDGE_SIZE + 1):
+			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
+				score += self.CheckHDiagDown(i, j)
+				score += self.CheckHDiagUp(i, j + BRIDGE_SIZE - 1)
+		if player is 1:
+			return score
+		else:
+			return -score
+
+	def CheckHColumn(self, column, row):
+		control = 0
+		size = 0
+		for i in range(0, BRIDGE_SIZE):
+			player = self.GetPlayer(column, row + i)
+			# if cell is controlled by a player
+			if player > 0:
+				# Set control
+				if control is 0:
+					control = player
+				# Bridge is controlled by a single player
+				if control is player:
+					size += 1
+				# Bridge is blocked by the other player
+				else:
+					return 0
+		if control is 0:
+			return 0
+		if VERBOSE:
+			print("Column found at", column, row, "\nplayer", control, "\nsize", size, "\nscore", end=" ")
+		return self.ApplyWeights(control, size)
+
+	def CheckHRow(self, column, row):
+		control = 0
+		size = 0
+		for i in range(0, BRIDGE_SIZE):
+			player = self.GetPlayer(column + i, row)
+			# if cell is controlled by a player
+			if player > 0:
+				# Set control
+				if control is 0:
+					control = player
+				# Bridge is controlled by a single player
+				if control is player:
+					size += 1
+				# Bridge is blocked by the other player
+				else:
+					return 0
+		if control is 0:
+			return 0
+		if VERBOSE:
+			print("Row found at", column, row, "\nplayer", control, "\nsize", size, "\nscore", end=" ")
+		return self.ApplyWeights(control, size)
+	
+	def CheckHDiagDown(self, column, row):
+		control = 0
+		size = 0
+		for i in range(0, BRIDGE_SIZE):
+			player = self.GetPlayer(column + i, row + i)
+			# if cell is controlled by a player
+			if player > 0:
+				# Set control
+				if control is 0:
+					control = player
+				# Bridge is controlled by a single player
+				if control is player:
+					size += 1
+				# Bridge is blocked by the other player
+				else:
+					return 0
+		if control is 0:
+			return 0
+		if VERBOSE:
+			print("DiagDown found at", column, row, "\nplayer", control, "\nsize", size, "\nscore", end=" ")
+		return self.ApplyWeights(control, size)
+
+	def CheckHDiagUp(self, column, row):
+		control = 0
+		size = 0
+		for i in range(0, BRIDGE_SIZE):
+			player = self.GetPlayer(column + i, row - i)
+			# if cell is controlled by a player
+			if player > 0:
+				# Set control
+				if control is 0:
+					control = player
+				# Bridge is controlled by a single player
+				if control is player:
+					size += 1
+				# Bridge is blocked by the other player
+				else:
+					return 0
+		if control is 0:
+			return 0
+		if VERBOSE:
+			print("DiagUp found at", column, row, "\nplayer", control, "\nsize", size, "\nscore", end=" ")
+		return self.ApplyWeights(control, size)
+
+	def ApplyWeights(self, control, size):
+		score = WEIGHTS[str(control)+str(size)]
+		if VERBOSE:
+			print(score)
+		return score
 
 	#Checks if the space is a legal move, testing all conditions (using A1 format)
 	def IsLegal(self, column, row):
