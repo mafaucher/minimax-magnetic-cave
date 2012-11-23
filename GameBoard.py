@@ -8,7 +8,6 @@
 
 
 import os
-import math
 from Constants import *
 
 def cls():
@@ -197,6 +196,20 @@ class GameBoard:
 			for j in range(BOARD_WIDTH):
 				self.gameSpace[i][j] = EMPTY_CELL_VALUE
 
+	#used to get a list of possible moves to generate trees
+	def GetNextAvailablePlays(self):
+		moves = set()
+		for i in range(BOARD_HEIGHT):
+			for j in range(BOARD_WIDTH):
+				if self.gameSpace[i][j] == EMPTY_CELL_VALUE:
+					moves.add(str(i) + self.IntToLetter(j))
+					break
+		for i in range(BOARD_HEIGHT):
+			for j in range(BOARD_WIDTH):
+				if self.gameSpace[i][BOARD_WIDTH - j - 1] == EMPTY_CELL_VALUE:
+					moves.add(str(i) + self.IntToLetter(BOARD_WIDTH - j - 1))
+					break
+		print(moves)
 				
 	def PopulateForTest(self, setting):
 		if setting == 1: #check column
@@ -230,3 +243,6 @@ class GameBoard:
 			self.gameSpace[3][1] = PLAYER_SYMBOLS[2]
 			self.gameSpace[3][2] = PLAYER_SYMBOLS[2]
 			self.gameSpace[3][3] = PLAYER_SYMBOLS[2]
+			
+			
+	
