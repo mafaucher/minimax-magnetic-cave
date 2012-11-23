@@ -13,6 +13,7 @@ class Tree:
 	def AddNode(self, node, parentNode=None):
 		node = Node(parentNode)
 
-	def SetRoot(self, node):
+	def SetRootAndExpand(self, node, possibleMoves):
 		self.root = node
 		node.parentNode = None
+		
