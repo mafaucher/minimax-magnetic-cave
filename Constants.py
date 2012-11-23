@@ -1,7 +1,7 @@
 # Jonathan Bergeron, id : 9764453
 # Marc-Andre Faucher,id : 9614729
 
-VERBOSE = False
+VERBOSE = True
 
 # Game Board
 

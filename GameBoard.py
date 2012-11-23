@@ -9,20 +9,19 @@
 
 import os
 from Constants import *
+from copy import deepcopy
 
 def cls():
     os.system(['clear', 'cls'][os.name == 'nt'])
 
 class GameBoard:
 	#initializer
-	def __init__(self):
-		self.gameSpace = []
+	def __init__(self, board=None):
+		if board:
+			self.gameSpace = deepcopy(board.gameSpace)
+		else:
+			self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
 		
-		for i in range(BOARD_HEIGHT):
-			self.gameSpace.append([])
-			for j in range(BOARD_WIDTH):
-				self.gameSpace[i].append(EMPTY_CELL_VALUE)
-
 	#output the board to console	
 	def Print(self):
 		cls()
@@ -191,6 +190,4 @@ class GameBoard:
 
 	#zeros out the board
 	def ClearOutBoard(self):
-		for i in range(BOARD_HEIGHT):
-			for j in range(BOARD_WIDTH):
-				self.gameSpace[i][j] = EMPTY_CELL_VALUE
+		self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
