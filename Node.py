@@ -6,15 +6,15 @@ from GameBoard import *
 
 class Node:
 	#initializer
-	def __init__(self, parentNode=None):
+	def __init__(self, parentNode=None, move=None, player=None):
 		self.parentNode = parentNode
 		if self.parentNode:
 			board = self.parentNode.gameBoard
+			self.parentNode.children.append(self)
 		else:
 			board = None
-		self.gameBoard = GameBoard(board)
+		self.gameBoard = GameBoard(board, move, player)
 		self.children = [] #for storing child nodes
-		#self.hScore = None
 	
 	#return true if the node is a leaf node. If false, then the node is an internal node
 	def IsLeaf(self):

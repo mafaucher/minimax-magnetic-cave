@@ -21,9 +21,20 @@ def GetCoord():
 				print(e)
 			column = None
 			row = None
+	print("player played: ", str(column), ", ", str(row))
 	return (column, row)
 	
+	
 gameBoard = GameBoard()
+playerAI = []
+
+for i in range(2):
+	question = "Will player " + str(i + 1) + " be an AI player?"
+	userInput = input(question)
+	if userInput == "y":
+		playerAI.append(True)
+	else:
+		playerAI.append(False)
 
 currentPlayer = 1
 score = { 1:0, 2:0 }
@@ -33,33 +44,32 @@ userInput = ""
 while userInput.lower() != "n":
 	gameBoard.ClearOutBoard()
 	#gameBoard.PopulateForTest(4)
-	gameBoard.Print()
+	#gameBoard.Print()
 	# Main game loop
 	while gameBoard.CheckWinner() < 0:
-		val = gameBoard.WeightedH(currentPlayer)
-		print("\nFINAL HEURISTIC:", val, "\n")
-		print()
-		print("PLAYER", currentPlayer)
-		print()
+		if not playerAI[currentPlayer - 1]: #human player
+			gameBoard.Print()
+			#gameBoard.GetNextAvailablePlays()
+			print("\nPLAYER", currentPlayer, "\n")
 
-		# Get legal coordinates
-		(column, row) = GetCoord()
-		while not gameBoard.IsLegal(column, row):
-			print("Illegal input, try again.")
+			# Get legal coordinates
 			(column, row) = GetCoord()
-
+			
+			while not gameBoard.IsLegal(column, row):
+				print("Illegal input, try again.")
+				(column, row) = GetCoord()
+		else: #AI player
+			print("HELLO")
+		
 		gameBoard.PlaceSymbol(currentPlayer, column, row)
 
 		# Switch current player
 		currentPlayer = currentPlayer % 2 + 1
-		
-		gameBoard.Print()
-		gameBoard.GetNextAvailablePlays()
 	
 	# Check winner and display score
 	winner = gameBoard.CheckWinner()
 	if winner is 0:
-		"It's a draw!"
+		print("It's a draw!")
 	else:
 		score[winner] += 1
 	print()
@@ -68,3 +78,4 @@ while userInput.lower() != "n":
 	print()
 
 	userInput = input("Play another game? (y/n) ")
+

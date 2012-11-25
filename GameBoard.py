@@ -16,12 +16,29 @@ def cls():
 	
 class GameBoard:
 	#initializer
-	def __init__(self, board=None):
+	def __init__(self, board=None, move=None, player=None):
 		if board:
 			self.gameSpace = deepcopy(board.gameSpace)
 		else:
 			self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
+		if move:
+			self.PlaceSymbol(player, move[0], move[1])
 		
+	# Overrides ==
+	def __eq__(self, other):
+		if isinstance(other, self.__class__):
+			for j in range(BOARD_HEIGHT):
+				for i in range(BOARD_WIDTH):
+					if self.gameSpace[i][j] != other.gameSpace[i][j]:
+						return False
+			return True
+		else:
+			return False
+
+	# Overrides !=
+	def __ne__(self, other):
+		return not self.__eq__(other)
+
 	#output the board to console	
 	def Print(self):
 		cls()
@@ -147,10 +164,11 @@ class GameBoard:
 			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
 				score += self.CheckHDiagDown(i, j)
 				score += self.CheckHDiagUp(i, j + BRIDGE_SIZE - 1)
-		if player is 1:
-			return score
+		# Return weighted heuristic, capped in (-1000, 1000)
+		if int(player) == 1:
+			return min(max(-score, MIN_H+1), MAX_H-1)
 		else:
-			return -score
+			return min(max(score, MIN_H+1), MAX_H-1)
 
 	def CheckHColumn(self, column, row):
 		control = 0
@@ -308,21 +326,30 @@ class GameBoard:
 	#zeros out the board
 	def ClearOutBoard(self):
 		self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
+
 	#used to get a list of possible moves to generate trees
 	def GetNextAvailablePlays(self):
+		# Check if there is a winner
+		if self.CheckWinner() >= 0:
+			return []
 		moves = set()
+		# Return all possible moves
 		for i in range(BOARD_HEIGHT):
 			for j in range(BOARD_WIDTH):
 				if self.gameSpace[i][j] == EMPTY_CELL_VALUE:
-					moves.add(str(i) + self.IntToLetter(j))
+					#moves.add(str(i) + self.IntToLetter(j))
+					moves.add((self.IntToLetter(j), i+1))
 					break
 		for i in range(BOARD_HEIGHT):
 			for j in range(BOARD_WIDTH):
 				if self.gameSpace[i][BOARD_WIDTH - j - 1] == EMPTY_CELL_VALUE:
-					moves.add(str(i) + self.IntToLetter(BOARD_WIDTH - j - 1))
+					#moves.add(str(i) + self.IntToLetter(BOARD_WIDTH - j - 1))
+					moves.add((self.IntToLetter(BOARD_WIDTH - j - 1), i+1))
 					break
-		print(moves)
-				
+		if VERBOSE:
+			print(moves)
+		return moves
+	
 	def PopulateForTest(self, setting):
 		if setting == 1: #check column
 			self.gameSpace[0][0] = PLAYER_SYMBOLS[1]
