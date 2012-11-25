@@ -23,9 +23,8 @@ timer = time.clock() - start
 trees[2].GenerateDepths()
 gameBoard.Print()
 
-turn = 0
+turn = 1
 while True:
-	turn += 1
 	otherPlayer = OtherPlayer(player)
 
 	gameBoard.Print()
@@ -49,6 +48,11 @@ while True:
 	# Update the other player's tree according to the move the current player just played
 	tempNode = trees[otherPlayer].GetNode(gameBoard)
 	trees[otherPlayer].SetRoot(tempNode)
+
+	turn += 1
+
+	if turn is 10:
+		MAX_DEPTH += 1
 
 	# Generate new depths for this both player's trees
 	# NOTE: Remember to pass GenerateDepths the player which should be at the top of the tree

@@ -326,7 +326,11 @@ class GameBoard:
 	#zeros out the board
 	def ClearOutBoard(self):
 		self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 7e40ca71f9b9fadf8d7e2abbc0f6ec8434fb177e
 	#used to get a list of possible moves to generate trees
 	def GetNextAvailablePlays(self):
 		# Check if there is a winner
