@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sys
+import time
 from Constants import *
 from Node import Node
 from Tree import Tree
@@ -15,21 +16,31 @@ gameBoard = GameBoard()
 
 # Generate new trees for each AI
 trees = {1 : Tree(), 2 : Tree()}
+
+start = time.clock()
 trees[1].GenerateDepths()
+timer = time.clock() - start
 trees[2].GenerateDepths()
-print(trees[1].CountNodes(), trees[2].CountNodes())
 gameBoard.Print()
 
+turn = 0
 while True:
+	turn += 1
 	otherPlayer = OtherPlayer(player)
 
 	gameBoard.Print()
-	print("Player", player, "will play next")
-	print("Player 1:", gameBoard.WeightedH(1), "- Player 2:", gameBoard.WeightedH(2))
-	input()
-
+	print("PLAYER", player, "- TURN", turn, "\n-----------------")
+	print("HEURISTIC:\nPlayer 1:", gameBoard.WeightedH(1), "- Player 2:", gameBoard.WeightedH(2))
+	print("TIME:")
+	print("Player", player, "- Time for new depth:", timer)
+	
 	# Select the best path according to Minimax and update current player's tree
+	start = time.clock()
 	move = Minimax(trees[player], player)
+	elapsed = time.clock() - start
+	timer += elapsed
+	print("Player", player, "- Time for Minimax:", elapsed)
+	print("Player", player, "- Total time:", timer)
 	trees[player].SetRoot(move)
 
 	# Update the main board by copying it from the current player's tree
@@ -42,8 +53,15 @@ while True:
 	# Generate new depths for this both player's trees
 	# NOTE: Remember to pass GenerateDepths the player which should be at the top of the tree
 	#		In this case, this is the player who's turn it will be next.
+	start = time.clock()
 	trees[player].GenerateDepths(otherPlayer)
+	elapsed = time.clock() - start
+	timer += elapsed
+	print("Player", player, "- Time new depth:", elapsed, "(During other player's turn)")
+
+	start = time.clock()
 	trees[otherPlayer].GenerateDepths(otherPlayer)
+	timer = time.clock() - start
 
 	# Switch Player
 	player = otherPlayer
@@ -58,4 +76,5 @@ while True:
 	if winner is 2:
 		print("Player 2 wins!")
 		break
-	# NOTE: This Test does not check for winners, so expect an error when the game ends
+
+	input("Press <ENTER> to continue: ")

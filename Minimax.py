@@ -11,7 +11,6 @@ def Heuristic(node, player):
 
 def Minimax(tree, player, depth=MAX_DEPTH):
 	(score, path) = Maxi(tree.root, player, depth)
-	print(tree.CountNodes())
 	return path
 
 def Maxi(node, player, depth, alpha=MIN_H, beta=MAX_H):
