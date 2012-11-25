@@ -13,7 +13,7 @@ PLAYER_SYMBOLS = { 1:'O', 2:'X' }
 BRIDGE_SIZE = 5
 
 # Minimax
-MAX_DEPTH = 4
+MAX_DEPTH = 3
 MIN_H = -1000
 MAX_H = 1000
 
