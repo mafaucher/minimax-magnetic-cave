@@ -6,13 +6,8 @@
 #		PlaceSymbol(player, column, row), IsLegal(column, row)
 # 		and GetIndex(column, row) which converts to the internal format
 
-
-import os
 from Constants import *
 from copy import deepcopy
-
-def cls():
-    os.system(['clear', 'cls'][os.name == 'nt'])
 	
 class GameBoard:
 	#initializer
@@ -43,7 +38,6 @@ class GameBoard:
 
 	#output the board to console	
 	def Print(self):
-		cls()
 		if VERBOSE:
 			print("Printing board")
 		row = ""

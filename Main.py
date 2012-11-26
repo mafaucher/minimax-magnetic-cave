@@ -1,11 +1,16 @@
 #!/usr/bin/python3
 
+
+import os
 import sys
 from Constants import *
 from Node import Node
 from Tree import Tree
 from Minimax import *
 from GameBoard import GameBoard
+
+def cls():
+    os.system(['clear', 'cls'][os.name == 'nt'])
 
 #Prompt the user for input until valid coordinates are entered
 def GetCoord():
@@ -33,9 +38,7 @@ for i in range(2):
 	question = "Will player " + str(i + 1) + " be an AI player?"
 	userInput = input(question)
 	if userInput == "y":
-		tempTree = Tree()
-		tempTree.GenerateDepths()
-		playerAI.append(tempTree)
+		playerAI.append("AI")
 	else:
 		playerAI.append(None)
 		
@@ -47,7 +50,12 @@ userInput = ""
 # Multiple game loop
 while userInput.lower() != "n":
 	gameBoard.ClearOutBoard()
-	firstPlayerPlayed = False  # only used once
+	
+	for i in range(2):
+		if not playerAI[i] is None:
+			playerAI[i] = Tree()
+			playerAI[i].GenerateDepths()
+			
 	#gameBoard.PopulateForTest(4)
 	# Main game loop
 	
@@ -55,13 +63,15 @@ while userInput.lower() != "n":
 	#print("\nFINAL HEURISTIC:", val, "\n")
 	#print("PLAYER", currentPlayer)
 	
-	while gameBoard.CheckWinner() < 0:
+	while gameBoard.CheckWinner() < 0:	
+		nextPlayer = currentPlayer % 2 + 1
+		
 		if playerAI[currentPlayer - 1] is None: #human player
+			cls()
 			gameBoard.Print()
 			#gameBoard.GetNextAvailablePlays()
 			print("\nPLAYER", currentPlayer, "\n")
-		
-			if firstPlayerPlayed:
+			if not column is None:
 				print("last move played: ", str(column), ", ", str(row))
 			
 			# Get legal coordinates
@@ -72,26 +82,27 @@ while userInput.lower() != "n":
 			
 			gameBoard.PlaceSymbol(currentPlayer, column, row)
 			
-			nextPlayer = currentPlayer % 2 + 1
+			
 			tempNode = playerAI[nextPlayer - 1].GetNode(gameBoard)
 			
 			playerAI[nextPlayer - 1].SetRoot(tempNode)
 			playerAI[nextPlayer - 1].GenerateDepths(nextPlayer)
 			
 		else: #AI player
+			
 			selectedNode = Minimax(playerAI[currentPlayer - 1], currentPlayer)
 			column = selectedNode.gameBoard.moveColumn
 			row = selectedNode.gameBoard.moveRow
 			
 			gameBoard.PlaceSymbol(currentPlayer, column, row)
 			
-			nextPlayer = currentPlayer % 2 + 1			
-			
 			#get ready for new move
 			playerAI[currentPlayer - 1].SetRoot(selectedNode)
 			playerAI[currentPlayer - 1].GenerateDepths(nextPlayer)
 			
-			firstPlayerPlayed = True # only used once
+			if not playerAI[nextPlayer - 1] is None:
+				playerAI[nextPlayer - 1].SetRoot(selectedNode)
+				playerAI[nextPlayer - 1].GenerateDepths(currentPlayer)
 		
 
 		# Switch current player
