@@ -22,7 +22,7 @@ trees[1].GenerateDepths()
 timer = time.clock() - start
 trees[2].GenerateDepths()
 gameBoard.Print()
-
+flag = False
 turn = 1
 while True:
 	otherPlayer = OtherPlayer(player)
@@ -51,20 +51,33 @@ while True:
 
 	turn += 1
 
-#	if turn is 10:
-#		MAX_DEPTH += 1
+	if turn % 25 is 0:
+		flag = True
+		MAX_DEPTH += 1
 
 	# Generate new depths for this both player's trees
 	# NOTE: Remember to pass GenerateDepths the player which should be at the top of the tree
 	#		In this case, this is the player who's turn it will be next.
 	start = time.clock()
-	trees[player].GenerateDepths(otherPlayer, MAX_DEPTH)
+	if flag:
+		if player is 1:
+			trees[player].GenerateDepths(otherPlayer, MAX_DEPTH)
+		else:
+			trees[player].GenerateDepths(otherPlayer, MAX_DEPTH-1)
+	else:
+		trees[player].GenerateDepths(otherPlayer, MAX_DEPTH)
 	elapsed = time.clock() - start
 	timer += elapsed
 	print("Player", player, "- Time new depth:", elapsed, "(During other player's turn)")
 
 	start = time.clock()
-	trees[otherPlayer].GenerateDepths(otherPlayer, MAX_DEPTH)
+	if flag:
+		if player is 1:
+			trees[otherPlayer].GenerateDepths(otherPlayer, MAX_DEPTH)
+		else:
+			trees[otherPlayer].GenerateDepths(otherPlayer, MAX_DEPTH-1)
+	else:
+		trees[otherPlayer].GenerateDepths(otherPlayer, MAX_DEPTH)
 	timer = time.clock() - start
 
 	# Switch Player
