@@ -28,14 +28,14 @@ while True:
 	otherPlayer = OtherPlayer(player)
 
 	gameBoard.Print()
-	print("PLAYER", player, "- TURN", turn, "\n-----------------")
+	print("PLAYER", player, "- TURN", turn, "- DEPTH", MAX_DEPTH, "TREES: ", trees[1].CountNodes(), trees[2].CountNodes(), "\n-----------------")
 	print("HEURISTIC:\nPlayer 1:", gameBoard.WeightedH(1), "- Player 2:", gameBoard.WeightedH(2))
 	print("TIME:")
 	print("Player", player, "- Time for new depth:", timer)
 	
 	# Select the best path according to Minimax and update current player's tree
 	start = time.clock()
-	move = Minimax(trees[player], player)
+	move = Minimax(trees[player], player, MAX_DEPTH)
 	elapsed = time.clock() - start
 	timer += elapsed
 	print("Player", player, "- Time for Minimax:", elapsed)
@@ -51,20 +51,20 @@ while True:
 
 	turn += 1
 
-	if turn is 10:
-		MAX_DEPTH += 1
+#	if turn is 10:
+#		MAX_DEPTH += 1
 
 	# Generate new depths for this both player's trees
 	# NOTE: Remember to pass GenerateDepths the player which should be at the top of the tree
 	#		In this case, this is the player who's turn it will be next.
 	start = time.clock()
-	trees[player].GenerateDepths(otherPlayer)
+	trees[player].GenerateDepths(otherPlayer, MAX_DEPTH)
 	elapsed = time.clock() - start
 	timer += elapsed
 	print("Player", player, "- Time new depth:", elapsed, "(During other player's turn)")
 
 	start = time.clock()
-	trees[otherPlayer].GenerateDepths(otherPlayer)
+	trees[otherPlayer].GenerateDepths(otherPlayer, MAX_DEPTH)
 	timer = time.clock() - start
 
 	# Switch Player
@@ -72,13 +72,16 @@ while True:
 	
 	winner = gameBoard.CheckWinner()
 	if winner is 0:
+		gameBoard.Print()
 		print("It's a draw!")
 		break
 	if winner is 1:
 		print("Player 1 wins!")
+		gameBoard.Print()
 		break
 	if winner is 2:
 		print("Player 2 wins!")
+		gameBoard.Print()
 		break
 
 	input("Press <ENTER> to continue: ")
