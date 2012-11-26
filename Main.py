@@ -33,9 +33,7 @@ for i in range(2):
 	question = "Will player ", str(i + 1), " be an AI player?"
 	userInput = input(question)
 	if userInput == "y":
-		tempTree = Tree()
-		tempTree.GenerateDepths()
-		playerAI.append(tempTree)
+		playerAI.append("AI")
 	else:
 		playerAI.append(None)
 		
@@ -48,6 +46,12 @@ userInput = ""
 while userInput.lower() != "n":
 	gameBoard.ClearOutBoard()
 	firstPlayerPlayed = False  # only used once
+	
+	for i in range(2):
+		if not playerAI[i] is None:
+			playerAI[i] = Tree()
+			playerAI[i].GenerateDepths()
+			
 	#gameBoard.PopulateForTest(4)
 	# Main game loop
 	
