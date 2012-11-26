@@ -71,24 +71,20 @@ class GameBoard:
 			for j in range(BOARD_WIDTH):
 				winner = self.CheckWinRow(i, j)
 				if winner > 0:
-					print("Winner", winner, " ", self.IntToLetter(i), j+1, "row")
 					return winner
 		for i in range(BOARD_HEIGHT):
 			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
 				winner = self.CheckWinColumn(i, j)
 				if winner > 0:
-					print("Winner", winner, " ", self.IntToLetter(i), j+1, "column")
 					return winner
 		for i in range(BOARD_HEIGHT - BRIDGE_SIZE + 1):
 			for j in range(BOARD_WIDTH - BRIDGE_SIZE + 1):
 				winner = self.CheckWinDiagDown(i, j)
 				if winner > 0:
-					print("Winner", winner, " ", self.IntToLetter(i), j+1, "diagonal down")
 					return winner
 				#checking 3rd quartile here instead of 1st
 				winner = self.CheckWinDiagUp(i , j + BRIDGE_SIZE - 1)
 				if winner > 0:
-					print("Winner", winner, " ", self.IntToLetter(i), j+BRIDGE_SIZE , "diagonal up")
 					return winner
 		if self.IsDraw():
 			return 0
