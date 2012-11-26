@@ -63,7 +63,9 @@ while userInput.lower() != "n":
 	#print("\nFINAL HEURISTIC:", val, "\n")
 	#print("PLAYER", currentPlayer)
 	
-	while gameBoard.CheckWinner() < 0:
+	while gameBoard.CheckWinner() < 0:	
+		nextPlayer = currentPlayer % 2 + 1
+		
 		if playerAI[currentPlayer - 1] is None: #human player
 			cls()
 			gameBoard.Print()
@@ -80,7 +82,7 @@ while userInput.lower() != "n":
 			
 			gameBoard.PlaceSymbol(currentPlayer, column, row)
 			
-			nextPlayer = currentPlayer % 2 + 1
+			
 			tempNode = playerAI[nextPlayer - 1].GetNode(gameBoard)
 			
 			playerAI[nextPlayer - 1].SetRoot(tempNode)
@@ -94,11 +96,13 @@ while userInput.lower() != "n":
 			
 			gameBoard.PlaceSymbol(currentPlayer, column, row)
 			
-			nextPlayer = currentPlayer % 2 + 1			
-			
 			#get ready for new move
 			playerAI[currentPlayer - 1].SetRoot(selectedNode)
 			playerAI[currentPlayer - 1].GenerateDepths(nextPlayer)
+			
+			if not playerAI[nextPlayer - 1] is None:
+				playerAI[nextPlayer - 1].SetRoot(selectedNode)
+				playerAI[nextPlayer - 1].GenerateDepths(currentPlayer)
 		
 
 		# Switch current player
