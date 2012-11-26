@@ -56,9 +56,9 @@ class Tree:
 		return leaves
 
 	# Makes sure the tree is generated up to MAX_DEPTH
-	def GenerateDepths(self, player=1):
+	def GenerateDepths(self, player=1, depth=MAX_DEPTH):
 		nodeList = [self.root]
-		for depth in range(MAX_DEPTH):
+		for depth in range(depth):
 			otherPlayer = player % 2 + 1
 			tempList = []
 			for node in nodeList:
@@ -67,7 +67,7 @@ class Tree:
 					moves = node.gameBoard.GetNextAvailablePlays()
 					# Add a node in the tree for each move
 					for move in moves:
-						tempList.append(Node(node, move, otherPlayer))
+						tempList.append(Node(node, move, player))
 				else:
 					tempList.extend(node.children)
 			# Switch player
