@@ -30,7 +30,7 @@ gameBoard = GameBoard()
 playerAI = []
 
 for i in range(2):
-	question = "Will player ", str(i + 1), " be an AI player?"
+	question = "Will player " + str(i + 1) + " be an AI player?"
 	userInput = input(question)
 	if userInput == "y":
 		tempTree = Tree()
@@ -96,7 +96,7 @@ while userInput.lower() != "n":
 
 		# Switch current player
 		currentPlayer = nextPlayer
-	
+	gameBoard.Print()
 	# Check winner and display score
 	winner = gameBoard.CheckWinner()
 	if winner is 0:
