@@ -1,11 +1,16 @@
 #!/usr/bin/python3
 
+
+import os
 import sys
 from Constants import *
 from Node import Node
 from Tree import Tree
 from Minimax import *
 from GameBoard import GameBoard
+
+def cls():
+    os.system(['clear', 'cls'][os.name == 'nt'])
 
 #Prompt the user for input until valid coordinates are entered
 def GetCoord():
@@ -45,7 +50,6 @@ userInput = ""
 # Multiple game loop
 while userInput.lower() != "n":
 	gameBoard.ClearOutBoard()
-	firstPlayerPlayed = False  # only used once
 	
 	for i in range(2):
 		if not playerAI[i] is None:
@@ -61,11 +65,11 @@ while userInput.lower() != "n":
 	
 	while gameBoard.CheckWinner() < 0:
 		if playerAI[currentPlayer - 1] is None: #human player
+			cls()
 			gameBoard.Print()
 			#gameBoard.GetNextAvailablePlays()
 			print("\nPLAYER", currentPlayer, "\n")
-		
-			if firstPlayerPlayed:
+			if not column is None:
 				print("last move played: ", str(column), ", ", str(row))
 			
 			# Get legal coordinates
@@ -83,6 +87,7 @@ while userInput.lower() != "n":
 			playerAI[nextPlayer - 1].GenerateDepths(nextPlayer)
 			
 		else: #AI player
+			
 			selectedNode = Minimax(playerAI[currentPlayer - 1], currentPlayer)
 			column = selectedNode.gameBoard.moveColumn
 			row = selectedNode.gameBoard.moveRow
@@ -94,8 +99,6 @@ while userInput.lower() != "n":
 			#get ready for new move
 			playerAI[currentPlayer - 1].SetRoot(selectedNode)
 			playerAI[currentPlayer - 1].GenerateDepths(nextPlayer)
-			
-			firstPlayerPlayed = True # only used once
 		
 
 		# Switch current player
