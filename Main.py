@@ -34,10 +34,7 @@ for i in range(2):
 	userInput = input(question)
 	if userInput == "y":
 		tempTree = Tree()
-		if i % 2 == 0:
-			tempTree.GenerateDepths(1)
-		else:
-			tempTree.GenerateDepths(2)
+		tempTree.GenerateDepths()
 		playerAI.append(tempTree)
 	else:
 		playerAI.append(None)

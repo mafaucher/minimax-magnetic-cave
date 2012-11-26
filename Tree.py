@@ -20,8 +20,6 @@ class Tree:
 	# Find the node which corresponds to the player's move
 	def GetNode(self, currentBoard):
 		for child in self.root.children:
-			child.gameBoard.Print()
-			uinput = input("asd?")
 			if child.gameBoard == currentBoard:
 				return child
 		raise ValueError("Unpredicted Game Move")
