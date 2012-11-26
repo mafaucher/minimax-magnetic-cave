@@ -22,6 +22,8 @@ class GameBoard:
 		else:
 			self.gameSpace = [[EMPTY_CELL_VALUE for j in range(BOARD_WIDTH)] for i in range(BOARD_HEIGHT)]
 		if move:
+			self.moveColumn = move[0]
+			self.moveRow = move[1]
 			self.PlaceSymbol(player, move[0], move[1])
 		
 	# Overrides ==

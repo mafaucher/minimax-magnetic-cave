@@ -24,7 +24,8 @@ def GetCoord():
 	
 	return (column, row)
 	
-	
+#=============================================================================================
+
 gameBoard = GameBoard()
 playerAI = []
 
@@ -32,9 +33,15 @@ for i in range(2):
 	question = "Will player ", str(i + 1), " be an AI player?"
 	userInput = input(question)
 	if userInput == "y":
-		playerAI.append(True)
+		tempTree = Tree()
+		if i % 2 == 0:
+			tempTree.GenerateDepths(1)
+		else:
+			tempTree.GenerateDepths(2)
+		playerAI.append(tempTree)
 	else:
-		playerAI.append(False)
+		playerAI.append(None)
+		
 
 currentPlayer = 1
 score = { 1:0, 2:0 }
@@ -43,7 +50,7 @@ userInput = ""
 # Multiple game loop
 while userInput.lower() != "n":
 	gameBoard.ClearOutBoard()
-	movePlayed = False
+	firstPlayerPlayed = False  # only used once
 	#gameBoard.PopulateForTest(4)
 	# Main game loop
 	
@@ -52,12 +59,12 @@ while userInput.lower() != "n":
 	#print("PLAYER", currentPlayer)
 	
 	while gameBoard.CheckWinner() < 0:
-		if not playerAI[currentPlayer - 1]: #human player
+		if playerAI[currentPlayer - 1] is None: #human player
 			gameBoard.Print()
 			#gameBoard.GetNextAvailablePlays()
 			print("\nPLAYER", currentPlayer, "\n")
 		
-			if movePlayed:
+			if firstPlayerPlayed:
 				print("last move played: ", str(column), ", ", str(row))
 			
 			# Get legal coordinates
@@ -65,13 +72,33 @@ while userInput.lower() != "n":
 			while not gameBoard.IsLegal(column, row):
 				print("Illegal input, try again.")
 				(column, row) = GetCoord()
-		#else: #AI player
-		
+			
 			gameBoard.PlaceSymbol(currentPlayer, column, row)
-		movePlayed = True
+			
+			nextPlayer = currentPlayer % 2 + 1
+			tempNode = playerAI[nextPlayer - 1].GetNode(gameBoard)
+			
+			playerAI[nextPlayer - 1].SetRoot(tempNode)
+			playerAI[nextPlayer - 1].GenerateDepths(nextPlayer)
+			
+		else: #AI player
+			selectedNode = Minimax(playerAI[currentPlayer - 1], currentPlayer)
+			column = selectedNode.gameBoard.moveColumn
+			row = selectedNode.gameBoard.moveRow
+			
+			gameBoard.PlaceSymbol(currentPlayer, column, row)
+			
+			nextPlayer = currentPlayer % 2 + 1			
+			
+			#get ready for new move
+			playerAI[currentPlayer - 1].SetRoot(selectedNode)
+			playerAI[currentPlayer - 1].GenerateDepths(nextPlayer)
+			
+			firstPlayerPlayed = True # only used once
+		
 
 		# Switch current player
-		currentPlayer = currentPlayer % 2 + 1
+		currentPlayer = nextPlayer
 	
 	# Check winner and display score
 	winner = gameBoard.CheckWinner()
