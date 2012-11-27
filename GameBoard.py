@@ -162,9 +162,9 @@ class GameBoard:
 				score += self.CheckHDiagUp(i, j + BRIDGE_SIZE - 1)
 		# Return weighted heuristic, capped in (-1000, 1000)
 		if int(player) == 1:
-			return min(max(score, MIN_H+1), MAX_H-1)
+			return score
 		else:
-			return min(max(-score, MIN_H+1), MAX_H-1)
+			return -score
 
 	def CheckHColumn(self, column, row):
 		control = 0
