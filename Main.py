@@ -98,10 +98,9 @@ while userInput.lower() != "n":
 
 			# Minimax
 			selectedNode = Minimax(playerAI[currentPlayer - 1], currentPlayer)
+			gameBoard = GameBoard(selectedNode.gameBoard)
 			column = selectedNode.gameBoard.moveColumn
 			row = selectedNode.gameBoard.moveRow
-			
-			gameBoard.PlaceSymbol(currentPlayer, column, row)
 			
 			# Get ready for new move
 			playerAI[currentPlayer - 1].SetRoot(selectedNode)
@@ -112,9 +111,9 @@ while userInput.lower() != "n":
 
 			# Playing against an AI
 			if playerAI[nextPlayer - 1]: 
-				playerAI[nextPlayer - 1].SetRoot(selectedNode)
-				playerAI[nextPlayer - 1].GenerateDepths(currentPlayer)
-		
+				tempNode = playerAI[nextPlayer - 1].GetNode(gameBoard)
+				playerAI[nextPlayer - 1].SetRoot(tempNode)
+				playerAI[nextPlayer - 1].GenerateDepths(nextPlayer)
 
 		# Switch current player
 		currentPlayer = nextPlayer
